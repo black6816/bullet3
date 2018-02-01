@@ -64,6 +64,8 @@ static GLInstanceGraphicsShape* LoadMeshFromSTL(const char* relativeFileName)
 						int index = 0;
 						shape->m_indices = new b3AlignedObjectArray<int>();
 						shape->m_vertices = new b3AlignedObjectArray<GLInstanceVertex>();
+						shape->m_indices->resize(numTriangles);
+						shape->m_vertices->resize(numTriangles);//just to avoid many times allocate
 						for (int i=0;i<numTriangles;i++)
 						{
 							char* curPtr = &memoryBuffer[84+i*50];
