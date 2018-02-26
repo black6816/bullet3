@@ -69,18 +69,31 @@ inline void b3GrahamScanConvexHull2D(b3AlignedObjectArray<b3GrahamVector3>& orig
 		return;
 	}
 	//step1 : find anchor point with smallest projection on axis0 and move it to first location
-	for (int i=0;i<originalPoints.size();i++)
+	b3Scalar minProjection = originalPoints[0].dot(axis0);
+	int minPosition = 0;
+	for (int i = 1; i < originalPoints.size(); i++)
+	{
+		b3Scalar proj = originalPoints[i].dot(axis0);
+		if (proj < minProjection)
+		{
+			minPosition = i;
+			minProjection = proj;
+		}
+	}
+	if (minPosition != 0)
+		originalPoints.swap(0, minPosition);	
+/*	for (int i=0;i<originalPoints.size();i++)
 	{
 //		const b3Vector3& left = originalPoints[i];
 //		const b3Vector3& right = originalPoints[0];
 		b3Scalar projL = originalPoints[i].dot(axis0);
-		b3Scalar projR = originalPoints[0].dot(axis0);
+		b3Scalar projR = originalPoints[0].dot(axis0);//can we use a temp varient to avoid 'second' calculate ?
 		if (projL < projR)
 		{
 			originalPoints.swap(0,i);
 		}
 	}
-
+*/
 	//also precompute angles
 	originalPoints[0].m_angle = -1e30f;
 	for (int i=1;i<originalPoints.size();i++)
